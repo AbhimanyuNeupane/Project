@@ -15,7 +15,7 @@ void case_default();
     char name[20],address,grade;
     char a[0];
     float percentage;
-    FILE * fptr;
+    FILE *fptr;
 //***************************************************************
 //                   FUNCTION USED IN PROJECT
 //****************************************************************
@@ -55,7 +55,6 @@ void login()
 
 void option()
 {
-    fptr=fopen("info.txt","r");
     int choice;
     char inp;
     int n;
@@ -73,16 +72,8 @@ void option()
             }
         case 2:
             {
-
-                printf("Enter student ID : ");
-                scanf("%d",&id);
-                if ((fptr = fopen("C:\\Users\sande\OneDrive\Desktop\C\Entrance exam\info.txt","rb")) == NULL)
-                    {
-                        printf("Error! opening file");
-                        // Program exits if the file pointer returns NULL.
-                        exit(0);
-                    }
-                    break;
+                read_data();
+                break;
             }
         case 3:
             {
@@ -122,50 +113,126 @@ void case_default()
 
 void getdata()
 {
+    struct savedata
+{
+    int id,s_marks,e_marks,m_marks,n_marks;
+    char name[20];//address,grade;
+    char a[0];
+    float percentage;
+}save_d[50];
 
-    fptr = fopen("info.txt","a");
+     char record;
+     int i=0;
+     FILE*fptr = fopen("info.txt","a");
+    do{
+            printf("\nDo you want to enter a record :");
+            scanf(" %s",&record);
+            if(record=='Y' || record=='y')
+            {
+                printf("\n");
+                printf("----------------------------------------\n");
+                //fprintf(fptr,"\n----------------------------------------\n");
+
+                printf("\nEnter the id no of student:");
+                scanf("%d",&id);
+                fprintf(fptr,"%d\t",id);
+                printf("Enter the name of student:");
+                gets(a);
+                gets(name);
+                //fprintf(fptr,"\");
+                fputs(name,fptr);
+                fprintf(fptr,"\t");
+                printf("Enter the marks obtained in Science: ");
+                scanf("%d",&s_marks);
+                fprintf(fptr,"%d\t",s_marks);
+                printf("Enter the marks obtained in English: ");
+                scanf("%d",&e_marks);
+                fprintf(fptr,"%d\t",e_marks);
+                printf("Enter the marks obtained in Math: ");
+                scanf("%d",&m_marks);
+                fprintf(fptr,"%d\t",m_marks);
+                printf("Enter the marks obtained in Nepali: ");
+                scanf("%d",&n_marks);
+                fprintf(fptr,"%d\t",n_marks);
+                printf("----------------------------------------\n");
+                percentage=s_marks+e_marks+m_marks+n_marks/4;
+                if(percentage>=60)
+                {
+                    grade='A';
+                }
+
+                else if(percentage>=50 && percentage<60)
+                {
+                    grade='B';
+                }
+
+                else if(percentage>=30 && percentage<50)
+                {
+                    grade='C';
+                }
+
+                else
+                {
+                    grade='F';
+                }
+                i++;
+
+            }
+
+    fprintf(fptr,"%c\n",grade);
     printf("\n");
-    printf("----------------------------------------\n");
-    fprintf(fptr,"\n----------------------------------------\n");
-    printf("\nEnter the id no of student:");
-    scanf("%d",&id);
-    fprintf(fptr,"\nID:\t\t%d",id);
-    printf("Enter the name of student:");
-    gets(a);
-    gets(name);
-    fprintf(fptr,"\nName:\t\t");
-    fputs(name,fptr);
-    printf("Enter the marks obtained in Science: ");
-    scanf("%d",&s_marks);
-    fprintf(fptr,"\nScience:\t%d ",s_marks);
-    printf("Enter the marks obtained in English: ");
-    scanf("%d",&e_marks);
-    fprintf(fptr,"\nEnglish:\t%d ",e_marks);
-    printf("Enter the marks obtained in Math: ");
-    scanf("%d",&m_marks);
-    fprintf(fptr,"\nMath:\t\t%d ",m_marks);
-    printf("Enter the marks obtained in Nepali: ");
-    scanf("%d",&n_marks);
-    fprintf(fptr,"\nNepali:\t\t%d ",n_marks);
-    printf("----------------------------------------\n");
-    percentage=s_marks+e_marks+m_marks+n_marks/4;
+    showdata();
+    fclose(fptr);
+    }while(record!='n');
+}
+
+void read_data()
+{
+    struct readdata
+{
+    int id,s_marks,e_marks,m_marks,n_marks;
+    char name[20];//address,grade;
+    char a[0];
+    float percentage;
+}read_d[50];
+
+ struct savedata
+{
+    int id,s_marks,e_marks,m_marks,n_marks;
+    char name[20];//address,grade;
+    char a[0];
+    float percentage;
+}save_d[50];
+int id;
+int i=0;
+fptr = fopen("info.txt","r");
+printf("Enter student ID : ");
+scanf("%d",&id);
+do
+{
+    fscanf("%d %s %d %d %d %d" ,&save_d[i].id,&save_d[i].name,&save_d[i].s_marks,&save_d[i].e_marks,&save_d[i].m_marks,&save_d[i].n_marks);
+    if(id==save_d[i].id)
+    {
+        printf("ID: %d\n",save_d[i].id);
+        printf("Name: %s\n",save_d[i].name);
+        printf("Science : %d\n",save_d[i].s_marks);
+        printf("English : %d\n",save_d[i].e_marks);
+        printf("Math : %d\n",save_d[i].m_marks);
+        printf("Nepali : %d\n",save_d[i].n_marks);
+        break;
+    }
+    else
+    {
+        i++;
+    }
+}while(id!=save_d[i].id);
+fclose(fptr);
 
 
-
-        if(percentage>=60)
-            grade='A';
-        else if(percentage>=50 && percentage<60)
-            grade='B';
-        else if(percentage>=30 && percentage<50)
-            grade='C';
-        else
-            grade='F';
-        fprintf(fptr,"\nGrade:\t\t%c ",grade);
-
-        showdata();
-        fclose(fptr);
 
 }
+
+
 
 void showdata()
 {
