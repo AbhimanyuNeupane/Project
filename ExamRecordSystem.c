@@ -2,12 +2,22 @@
 #include<conio.h>
 #include<stdlib.h>
 
+struct Data
+{
+    int id,s_marks,e_marks,m_marks,n_marks;
+    char name[20];
+    char a[0];
+    float percentage;
+    char grade;
+}save_d[50],read_d[50];
 
+
+
+void getdata();
+void read_data();
 void option();
 void showdata();
-void getdata();
 void case_default();
-
 //***************************************************************
 //                   DECLARATION OF VARIABLES IN PROJECT
 //****************************************************************
@@ -21,7 +31,7 @@ void case_default();
 //****************************************************************
 void login()
 {
-     int num,count=0;
+    int num,count=0;
 	do
 	{
 		system("cls");
@@ -31,9 +41,9 @@ void login()
                 printf("****Invalid pin****\n");
                 printf("-------------------\n");
             }
-	printf("Enter the password:   \n");
-	scanf("%d",&num);
-	count++;
+            printf("Enter the password:   \n");
+            scanf("%d",&num);
+            count++;
 	}while((num!=1234)&&(count<3));   //boundary value//
 	if((count<=3) && (num==1234))
         {
@@ -43,14 +53,13 @@ void login()
             printf("--------------------------\n");
             option();
         }
-	else //if(count<3)
+	else
         {
             printf("----------------------------\n");
             printf("****Invalid login attempt***\n");
             printf("----------------------------\n");
             exit(0);
         }
-	//choice();
 }
 
 void option()
@@ -67,12 +76,13 @@ void option()
     {
         case 1:
             {
-                getdata();
+                getdata();//
                 break;
             }
+
         case 2:
             {
-                read_data();
+                read_data();//
                 break;
             }
         case 3:
@@ -96,9 +106,9 @@ void case_default()
     printf("\nDo you want to exit or not (Y/N):");
     scanf("%s",&inp);
     if(inp =='Y' || inp =='y' )
-     {
-         exit(0);
-     }
+    {
+        exit(0);
+    }
      else if(inp == 'N' || inp == 'n')
      {
          option();
@@ -113,33 +123,25 @@ void case_default()
 
 void getdata()
 {
-    struct savedata
-{
-    int id,s_marks,e_marks,m_marks,n_marks;
-    char name[20];//address,grade;
-    char a[0];
-    float percentage;
-}save_d[50];
-
      char record;
      int i=0;
      FILE*fptr = fopen("info.txt","a");
     do{
-            printf("\nDo you want to enter a record :");
-            scanf(" %s",&record);
+            fflush(stdin);
+            printf("\nDo you want to enter a record(Y/N) :");
+
+            scanf("%c",&record);
             if(record=='Y' || record=='y')
             {
                 printf("\n");
                 printf("----------------------------------------\n");
-                //fprintf(fptr,"\n----------------------------------------\n");
-
                 printf("\nEnter the id no of student:");
                 scanf("%d",&id);
                 fprintf(fptr,"%d\t",id);
                 printf("Enter the name of student:");
-                gets(a);
+                fflush(stdin);
+                //gets(a);
                 gets(name);
-                //fprintf(fptr,"\");
                 fputs(name,fptr);
                 fprintf(fptr,"\t");
                 printf("Enter the marks obtained in Science: ");
@@ -155,7 +157,9 @@ void getdata()
                 scanf("%d",&n_marks);
                 fprintf(fptr,"%d\t",n_marks);
                 printf("----------------------------------------\n");
-                percentage=s_marks+e_marks+m_marks+n_marks/4;
+                percentage=s_marks+e_marks+m_marks+n_marks/400;
+                //printf("1");
+                //getch();
                 if(percentage>=60)
                 {
                     grade='A';
@@ -178,7 +182,8 @@ void getdata()
                 i++;
 
             }
-
+                //printf("2");
+                //getch();
     fprintf(fptr,"%c\n",grade);
     printf("\n");
     showdata();
@@ -188,62 +193,46 @@ void getdata()
 
 void read_data()
 {
-    struct readdata
-{
-    int id,s_marks,e_marks,m_marks,n_marks;
-    char name[20];//address,grade;
-    char a[0];
-    float percentage;
-}read_d[50];
 
- struct savedata
-{
-    int id,s_marks,e_marks,m_marks,n_marks;
-    char name[20];//address,grade;
-    char a[0];
-    float percentage;
-}save_d[50];
+
+
 int id;
 int i=0;
 fptr = fopen("info.txt","r");
 printf("Enter student ID : ");
 scanf("%d",&id);
+printf("\n");
 do
 {
-    fscanf("%d %s %d %d %d %d" ,&save_d[i].id,&save_d[i].name,&save_d[i].s_marks,&save_d[i].e_marks,&save_d[i].m_marks,&save_d[i].n_marks);
-    if(id==save_d[i].id)
-    {
+
+    fscanf(fptr,"%d\t%s\t %d\t %d\t %d\t %d\t %c\n" ,&save_d[i].id,&save_d[i].name,&save_d[i].s_marks,&save_d[i].e_marks,&save_d[i].m_marks,&save_d[i].n_marks,&save_d[i].grade);
+    //printf("%d %s %d %d %d %d" ,save_d[i].id,save_d[i].name,save_d[i].s_marks,save_d[i].e_marks,save_d[i].m_marks,save_d[i].n_marks);
+
+        printf("**The following data are**\n");
+        printf("\n");
         printf("ID: %d\n",save_d[i].id);
         printf("Name: %s\n",save_d[i].name);
         printf("Science : %d\n",save_d[i].s_marks);
         printf("English : %d\n",save_d[i].e_marks);
         printf("Math : %d\n",save_d[i].m_marks);
         printf("Nepali : %d\n",save_d[i].n_marks);
-        break;
-    }
-    else
-    {
+        printf("Grade : %c\n",save_d[i].grade);
+        printf("\n");
         i++;
-    }
-}while(id!=save_d[i].id);
+
+}while(!feof(fptr));
 fclose(fptr);
-
-
-
 }
-
-
 
 void showdata()
 {
-    //fptr = fopen("info.txt","a");
+    printf("**You have entered these values***\n");
     printf("\nID of a student: %d",id);
     printf("\nName of a student: %s\n",name);
     printf("\nMarks obtained in Science: %d",s_marks);
     if(s_marks>=32)
     {
         printf(" (PASS)");
-        //fprintf(fptr,"(PASS)");
     }
     else
     {
@@ -253,36 +242,29 @@ void showdata()
     if(e_marks>=32)
     {
         printf(" (PASS)");
-        //fprintf(fptr,"(PASS)");
     }
     else
     {
         printf(" (FAIL)");
-        //fprintf(fptr,"(FAIL)");
     }
     printf("\nMarks obtained in Math: %d",m_marks);
     if(m_marks>=32)
     {
         printf(" (PASS)");
-        //fprintf(fptr,"(PASS)");
     }
     else
     {
         printf(" (FAIL)");
-        //fprintf(fptr,"(FAIL)");
     }
     printf("\nMarks obtained in Nepali: %d",n_marks);
     if(n_marks>=32)
     {
         printf(" (PASS)");
-        //fprintf(fptr,"(PASS)");
     }
     else
     {
         printf(" (FAIL)");
-        //fprintf(fptr,"(FAIL)");
     }
-    //printf("\nPercentage is : %f",percentage);
     printf("\nGrade of a student is %c",grade);
 
 }
@@ -290,4 +272,5 @@ void showdata()
 main()
 {
     login();
+    //read_data();
 }
