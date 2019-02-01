@@ -17,6 +17,7 @@ void read_data();
 void option();
 void showdata();
 void case_default();
+void readdata();
 //***************************************************************
 //                   DECLARATION OF VARIABLES IN PROJECT
 //****************************************************************
@@ -27,7 +28,7 @@ void case_default();
 //***************************************************************
 //                   FUNCTION USED IN PROJECT
 //****************************************************************
-void login()
+void login() //login function//
 {
     int num,count=0;
 	do
@@ -60,30 +61,36 @@ void login()
         }
 }
 
-void option()
+void option()//option for the user//
 {
     int choice;
     char inp;
     int n;
     printf("\nPress 1 to enter record of student\n");
-    printf("Press 2 to search existing student\n");
-    printf("Press 3 to exit\n");
+    printf("Press 2 to show all data from file\n");
+    printf("Press 3 to search existing student\n");
+    printf("Press 4 to exit\n");
     printf("Enter you choice : ");
     scanf("%d",&choice);
     switch(choice)
     {
         case 1:
             {
-                getdata();//
+                getdata();
                 break;
             }
 
         case 2:
             {
-                read_data();//
+                read_data();
                 break;
             }
         case 3:
+            {
+               readdata();
+               break;
+            }
+        case 4:
             {
                 printf("\n***Thank you so much***");
                 exit(0);
@@ -119,7 +126,7 @@ void case_default()
 }
 
 
-void getdata()
+void getdata() //takes the input of the student//
 {
      char record;
      int i=0;
@@ -183,7 +190,7 @@ void getdata()
      }while(record!='n');
 }
 
-void read_data()
+void read_data() //read the data from the file//
 {
 int id;
 int i=0;
@@ -210,7 +217,35 @@ do
 fclose(fptr);
 }
 
-void showdata()
+void readdata()
+{
+    int i=0;
+    fptr = fopen("info.txt","r");
+    printf("Enter student ID : ");
+    scanf("%d",&id);
+    fscanf(fptr,"%d\t%s\t %d\t %d\t %d\t %d\t %c\n" ,&save_d[i].id,&save_d[i].name,&save_d[i].s_marks,&save_d[i].e_marks,&save_d[i].m_marks,&save_d[i].n_marks,&save_d[i].grade);
+    do
+    {
+    if(save_d[i].id==id)
+    {
+        printf("ID: %d\n",save_d[i].id);
+        printf("Name: %s\n",save_d[i].name);
+        printf("Science : %d\n",save_d[i].s_marks);
+        printf("English : %d\n",save_d[i].e_marks);
+        printf("Math : %d\n",save_d[i].m_marks);
+        printf("Nepali : %d\n",save_d[i].n_marks);
+        printf("Grade : %c\n",save_d[i].grade);
+        break;
+
+    }
+
+    }while(!feof(fptr));
+    fclose(fptr);
+
+
+}
+
+void showdata()//show the entered data//
 {
     printf("**You have entered these values***\n");
     printf("\nID of a student: %d",id);
