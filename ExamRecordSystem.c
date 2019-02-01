@@ -6,7 +6,6 @@ struct Data
 {
     int id,s_marks,e_marks,m_marks,n_marks;
     char name[20];
-    char a[0];
     float percentage;
     char grade;
 }save_d[50],read_d[50];
@@ -23,7 +22,6 @@ void case_default();
 //****************************************************************
     int id,s_marks,e_marks,m_marks,n_marks;
     char name[20],address,grade;
-    char a[0];
     float percentage;
     FILE *fptr;
 //***************************************************************
@@ -129,7 +127,6 @@ void getdata()
     do{
             fflush(stdin);
             printf("\nDo you want to enter a record(Y/N) :");
-
             scanf("%c",&record);
             if(record=='Y' || record=='y')
             {
@@ -140,7 +137,6 @@ void getdata()
                 fprintf(fptr,"%d\t",id);
                 printf("Enter the name of student:");
                 fflush(stdin);
-                //gets(a);
                 gets(name);
                 fputs(name,fptr);
                 fprintf(fptr,"\t");
@@ -158,8 +154,6 @@ void getdata()
                 fprintf(fptr,"%d\t",n_marks);
                 printf("----------------------------------------\n");
                 percentage=s_marks+e_marks+m_marks+n_marks/400;
-                //printf("1");
-                //getch();
                 if(percentage>=60)
                 {
                     grade='A';
@@ -182,20 +176,15 @@ void getdata()
                 i++;
 
             }
-                //printf("2");
-                //getch();
-    fprintf(fptr,"%c\n",grade);
-    printf("\n");
-    showdata();
-    fclose(fptr);
-    }while(record!='n');
+            fprintf(fptr,"%c\n",grade);
+            printf("\n");
+            showdata();
+            fclose(fptr);
+     }while(record!='n');
 }
 
 void read_data()
 {
-
-
-
 int id;
 int i=0;
 fptr = fopen("info.txt","r");
@@ -204,21 +193,18 @@ scanf("%d",&id);
 printf("\n");
 do
 {
-
     fscanf(fptr,"%d\t%s\t %d\t %d\t %d\t %d\t %c\n" ,&save_d[i].id,&save_d[i].name,&save_d[i].s_marks,&save_d[i].e_marks,&save_d[i].m_marks,&save_d[i].n_marks,&save_d[i].grade);
-    //printf("%d %s %d %d %d %d" ,save_d[i].id,save_d[i].name,save_d[i].s_marks,save_d[i].e_marks,save_d[i].m_marks,save_d[i].n_marks);
-
-        printf("**The following data are**\n");
-        printf("\n");
-        printf("ID: %d\n",save_d[i].id);
-        printf("Name: %s\n",save_d[i].name);
-        printf("Science : %d\n",save_d[i].s_marks);
-        printf("English : %d\n",save_d[i].e_marks);
-        printf("Math : %d\n",save_d[i].m_marks);
-        printf("Nepali : %d\n",save_d[i].n_marks);
-        printf("Grade : %c\n",save_d[i].grade);
-        printf("\n");
-        i++;
+    printf("**The following data are**\n");
+    printf("\n");
+    printf("ID: %d\n",save_d[i].id);
+    printf("Name: %s\n",save_d[i].name);
+    printf("Science : %d\n",save_d[i].s_marks);
+    printf("English : %d\n",save_d[i].e_marks);
+    printf("Math : %d\n",save_d[i].m_marks);
+    printf("Nepali : %d\n",save_d[i].n_marks);
+    printf("Grade : %c\n",save_d[i].grade);
+    printf("\n");
+    i++;
 
 }while(!feof(fptr));
 fclose(fptr);
@@ -231,40 +217,40 @@ void showdata()
     printf("\nName of a student: %s\n",name);
     printf("\nMarks obtained in Science: %d",s_marks);
     if(s_marks>=32)
-    {
-        printf(" (PASS)");
-    }
+        {
+            printf(" (PASS)");
+        }
     else
-    {
-        printf(" (FAIL)");
-    }
+        {
+            printf(" (FAIL)");
+        }
     printf("\nMarks obtained in English: %d",e_marks);
     if(e_marks>=32)
-    {
-        printf(" (PASS)");
-    }
+        {
+            printf(" (PASS)");
+        }
     else
-    {
-        printf(" (FAIL)");
-    }
+        {
+            printf(" (FAIL)");
+        }
     printf("\nMarks obtained in Math: %d",m_marks);
     if(m_marks>=32)
-    {
-        printf(" (PASS)");
-    }
+        {
+            printf(" (PASS)");
+        }
     else
-    {
-        printf(" (FAIL)");
-    }
+        {
+            printf(" (FAIL)");
+        }
     printf("\nMarks obtained in Nepali: %d",n_marks);
     if(n_marks>=32)
-    {
-        printf(" (PASS)");
-    }
+        {
+            printf(" (PASS)");
+        }
     else
-    {
-        printf(" (FAIL)");
-    }
+        {
+            printf(" (FAIL)");
+        }
     printf("\nGrade of a student is %c",grade);
 
 }
@@ -272,5 +258,4 @@ void showdata()
 main()
 {
     login();
-    //read_data();
 }
