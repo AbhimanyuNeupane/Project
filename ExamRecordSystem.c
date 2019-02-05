@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<conio.h>
 #include<stdlib.h>
+#include<windows.h>
 
 struct Data
 {
@@ -28,7 +29,7 @@ void readdata();
 //***************************************************************
 //                   FUNCTION USED IN PROJECT
 //****************************************************************
-void login() //login function//
+void login() //login//
 {
     int num,count=0;
 	do
@@ -47,9 +48,9 @@ void login() //login function//
 	if((count<=3) && (num==1234))
         {
             system("cls");
-            printf("--------------------------\n");
-            printf("   ***Welcome***\n");
-            printf("--------------------------\n");
+            printf("-------------------------------------------------\n");
+            printf("   ***Welcome To Entrance Exam Record System  ***\n");
+            printf("-------------------------------------------------\n");
             option();
         }
 	else
@@ -61,7 +62,7 @@ void login() //login function//
         }
 }
 
-void option()//option for the user//
+void option() //option for the user//
 {
     int choice;
     char inp;
@@ -112,6 +113,7 @@ void case_default()
     scanf("%s",&inp);
     if(inp =='Y' || inp =='y' )
     {
+        printf("**!!Bye Bye Bye!!**");
         exit(0);
     }
      else if(inp == 'N' || inp == 'n')
@@ -130,13 +132,13 @@ void getdata() //takes the input of the student//
 {
      char record;
      int i=0;
-     FILE*fptr = fopen("info.txt","a");
     do{
             fflush(stdin);
             printf("\nDo you want to enter a record(Y/N) :");
             scanf("%c",&record);
             if(record=='Y' || record=='y')
             {
+                FILE*fptr = fopen("info.txt","a");
                 printf("\n");
                 printf("----------------------------------------\n");
                 printf("\nEnter the id no of student:");
@@ -159,7 +161,8 @@ void getdata() //takes the input of the student//
                 printf("Enter the marks obtained in Nepali: ");
                 scanf("%d",&n_marks);
                 fprintf(fptr,"%d\t",n_marks);
-                printf("----------------------------------------\n");
+                printf("\n");
+                printf("\-----------------------------------\n");
                 percentage=s_marks+e_marks+m_marks+n_marks/400;
                 if(percentage>=60)
                 {
@@ -180,23 +183,28 @@ void getdata() //takes the input of the student//
                 {
                     grade='F';
                 }
-                i++;
-
+               fprintf(fptr,"%c\n",grade);
+               i++;
             }
-            fprintf(fptr,"%c\n",grade);
-            printf("\n");
-            showdata();
+            else
+            {
+                exit(0);
+            }
+            //printf("\n");
             fclose(fptr);
+
+            showdata();
      }while(record!='n');
+
+
 }
 
 void read_data() //read the data from the file//
 {
 int id;
 int i=0;
+char ch;
 fptr = fopen("info.txt","r");
-printf("Enter student ID : ");
-scanf("%d",&id);
 printf("\n");
 do
 {
@@ -214,28 +222,82 @@ do
     i++;
 
 }while(!feof(fptr));
+fflush(stdin);
+printf("Do u want to exit or go to Option(Y/N) ");
+scanf("%c",&ch);
+if(ch=='y' || ch=='Y')
+{
+    option();
+}
+else
+{
+    exit(0);
+}
 fclose(fptr);
 }
 
 void readdata()
 {
-    int i=0;
+    int i=0,j=0;
     fptr = fopen("info.txt","r");
     printf("Enter student ID : ");
     scanf("%d",&id);
-    fscanf(fptr,"%d\t%s\t %d\t %d\t %d\t %d\t %c\n" ,&save_d[i].id,&save_d[i].name,&save_d[i].s_marks,&save_d[i].e_marks,&save_d[i].m_marks,&save_d[i].n_marks,&save_d[i].grade);
+    printf("\n");
+
     do
     {
-    if(save_d[i].id==id)
+        for(j=0;j<=10;j++)
     {
-        printf("ID: %d\n",save_d[i].id);
-        printf("Name: %s\n",save_d[i].name);
-        printf("Science : %d\n",save_d[i].s_marks);
-        printf("English : %d\n",save_d[i].e_marks);
-        printf("Math : %d\n",save_d[i].m_marks);
-        printf("Nepali : %d\n",save_d[i].n_marks);
-        printf("Grade : %c\n",save_d[i].grade);
+        fscanf(fptr,"%d\t%s\t%d\t%d\t%d\t%d\t%c\n",&save_d[i].id,&save_d[i].name,&save_d[i].s_marks,&save_d[i].e_marks,&save_d[i].m_marks,&save_d[i].n_marks,&save_d[i].grade);
+        if(save_d[i].id==id)
+    {
+        printf("ID: %d           RESULT",save_d[i].id);
+        printf("\nName: %s",save_d[i].name);
+        printf("\nScience : %d",save_d[i].s_marks);
+        if(save_d[i].s_marks>=32)
+        {
+            printf("\t |(PASS)");
+        }
+        else
+        {
+            printf("\t |(FAIL)");
+        }
+        printf("\nEnglish : %d",save_d[i].e_marks);
+        if(save_d[i].e_marks>=32)
+        {
+            printf("\t |(PASS)");
+        }
+        else
+        {
+            printf("\t |(FAIL)");
+        }
+        printf("\nMath : %d",save_d[i].m_marks);
+        if(save_d[i].m_marks>=32)
+        {
+            printf("\t |(PASS)");
+        }
+        else
+        {
+            printf("\t |(FAIL)");
+        }
+        printf("\nNepali : %d",save_d[i].n_marks);
+        if(save_d[i].n_marks>=32)
+        {
+            printf("\t |(PASS)");
+        }
+        else
+        {
+            printf("\t |(FAIL)");
+        }
+        printf("\nGrade : %c",save_d[i].grade);
+        j++;
         break;
+    }
+    else if(id==NULL)
+    {
+        printf("**Error finding file**");
+    }
+
 
     }
 
@@ -245,49 +307,52 @@ void readdata()
 
 }
 
-void showdata()//show the entered data//
+void showdata() //show the entered data//
 {
+    FILE*fptr = fopen("info.txt","a");
     printf("**You have entered these values***\n");
-    printf("\nID of a student: %d",id);
-    printf("\nName of a student: %s\n",name);
+    printf("------------------------------------\n");
+    printf("ID of a student: %d\n",id);
+    printf("Name of a student: %s       RESULT",name);
     printf("\nMarks obtained in Science: %d",s_marks);
     if(s_marks>=32)
         {
-            printf(" (PASS)");
+            printf("\t |(PASS)");
         }
     else
         {
-            printf(" (FAIL)");
+            printf("\t |(FAIL)");
         }
     printf("\nMarks obtained in English: %d",e_marks);
     if(e_marks>=32)
         {
-            printf(" (PASS)");
+            printf("\t |(PASS)");
         }
     else
         {
-            printf(" (FAIL)");
+            printf("\t |(FAIL)");
         }
     printf("\nMarks obtained in Math: %d",m_marks);
     if(m_marks>=32)
         {
-            printf(" (PASS)");
+            printf("\t |(PASS)");
         }
     else
         {
-            printf(" (FAIL)");
+            printf("\t |(FAIL)");
         }
     printf("\nMarks obtained in Nepali: %d",n_marks);
     if(n_marks>=32)
         {
-            printf(" (PASS)");
+            printf("\t |(PASS)");
         }
     else
         {
-            printf(" (FAIL)");
+            printf("\t |(FAIL)");
         }
-    printf("\nGrade of a student is %c",grade);
-
+    printf("\nGrade of a student is %c\n",grade);
+    printf("***Successful to write in file***");
+        //i++;
 }
 
 main()
