@@ -198,9 +198,9 @@ void getdata() //takes the input of the student//
                fprintf(fptr,"%c\n",grade);
                i++;
             }
-            else
+            else if (record=='N' || record=='n')
             {
-                exit(0);
+                option();
             }
             //printf("\n");
             fclose(fptr);
